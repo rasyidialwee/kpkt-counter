@@ -15,6 +15,12 @@ return new class extends Migration
     {
         Schema::create('borangs', function (Blueprint $table) {
             $table->id();
+            $table->string('nama');
+            $table->string('no_kp');
+            $table->string('telefon');
+            $table->text('catatan');
+            $table->string('code');
+            $table->boolean('is_verified')->default(false);
             $table->timestamps();
         });
     }

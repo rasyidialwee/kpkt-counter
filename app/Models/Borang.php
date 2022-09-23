@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Borang extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'nama', 'no_kp', 'telefon', 'catatan', 'code', 'is_verified',
+    ];
 }
