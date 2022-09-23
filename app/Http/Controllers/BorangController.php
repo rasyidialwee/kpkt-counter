@@ -57,10 +57,10 @@ class BorangController extends Controller
     {
         // dd($borang);
         $sms = Http::withHeaders([
-            'Authorization' => 'AIN1X6xP/YXOvCxE9beqsgQ3icRNfaBSm7uI7hVHo8I=',
+            'Authorization' => config('mysms.api_key'),
             'Content-Type' => 'application/json'
         ])
-            ->post('https://mysmsdvsb.azurewebsites.net/api/messages', [
+            ->post(config('mysms.url'), [
                 "keyword" => "KPKT",
                 "message" => "Kod Pengesahan anda adalah " . $borang->code,
                 "msisdn" => $borang->telefon,
