@@ -19,13 +19,33 @@
 </head>
 
 <body>
-    <div class="card" style="width: 18rem;">
+    <div class="container">
+        <div class="card mt-5">
+            <div class="card-body">
+                <h4>Borang Satu</h4>
 
-        <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
-                content.</p>
-            <a href="#" class="btn btn-primary">Go somewhere</a>
+                <form action="{{ route('borang.store') }}" method="post">
+                    @csrf
+                    <div class="form-group">
+                        <label for="nama">Nama</label>
+                        <input class="form-control" type="text" name="nama">
+                    </div>
+                    <div class="form-group">
+                        <label for="no_kp">No. Kad Pengenalan</label>
+                        <input class="form-control" type="text" name="no_kp" maxlength="12">
+                    </div>
+                    <div class="form-group">
+                        <label for="telefon">No. Telefon</label>
+                        <input class="form-control" type="tel" name="telefon">
+                    </div>
+                    <div class="form-group">
+                        <label for="nama">Catatan</label>
+                        <textarea class="form-control" name="catatan"></textarea>
+                    </div>
+
+                    <button class="btn btn-primary mt-2" type="submit">Sah Kan Nombor Telefon</button>
+                </form>
+            </div>
         </div>
     </div>
 </body>

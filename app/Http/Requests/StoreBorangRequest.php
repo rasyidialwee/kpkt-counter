@@ -13,7 +13,7 @@ class StoreBorangRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,10 @@ class StoreBorangRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'nama' => 'required|string',
+            'no_kp' => 'required|string|alpha_num|max:12|min:12',
+            'telefon' => 'required|string',
+            'catatan' => 'required|string',
         ];
     }
 }

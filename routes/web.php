@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BorangController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +17,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('borang');
 });
+
+Route::post('borang', [BorangController::class, 'store'])->name('borang.store');
+
+Route::get('borang/{borang}/pengesahan', [BorangController::class, 'pengesahan'])->name('borang.pengesahan');
+
+Route::post('borang/{borang}/pengesahan', [BorangController::class, 'pengesahan_store'])->name('borang.pengesahan.store');

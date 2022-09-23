@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreBorangRequest;
 use App\Http\Requests\UpdateBorangRequest;
 use App\Models\Borang;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 class BorangController extends Controller
 {
@@ -36,7 +38,59 @@ class BorangController extends Controller
      */
     public function store(StoreBorangRequest $request)
     {
-        //
+        $borang = new Borang();
+        $borang->nama = $request['nama'];
+        $borang->no_kp = $request['no_kp'];
+        $borang->telefon = $request['telefon'];
+        $borang->catatan = $request['catatan'];
+        $borang->code = $this->codeGenerator();
+        $borang->save();
+
+        $this->sendSMS($borang);
+
+        return to_route('borang.pengesahan', [
+            'borang' => $borang,
+        ]);
+    }
+
+    public function sendSMS(Borang $borang)
+    {
+        // dd($borang);
+        $sms = Http::withHeaders([
+            'Authorization' => 'AIN1X6xP/YXOvCxE9beqsgQ3icRNfaBSm7uI7hVHo8I=',
+            'Content-Type' => 'application/json'
+        ])
+            ->post('https://mysmsdvsb.azurewebsites.net/api/messages', [
+                "keyword" => "KPKT",
+                "message" => "Kod Pengesahan anda adalah " . $borang->code,
+                "msisdn" => $borang->telefon,
+            ]);
+
+        return $sms;
+    }
+
+    public function codeGenerator()
+    {
+        return rand(000000, 999999);
+    }
+
+    public function pengesahan(Borang $borang)
+    {
+        return view('Pengesahan', [
+            'borang' => $borang,
+        ]);
+    }
+
+    public function pengesahan_store(Request $request, Borang $borang)
+    {
+        if ($request['code'] === $borang->code) {
+            $borang->is_verified = true;
+            $borang->save();
+
+            return 'Berjaya';
+        }
+
+        return 'Pengesahan Gagal';
     }
 
     /**
